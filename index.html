@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - English Grade 7 SMP</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .card-hover {
+            transition: all 0.25s ease-in-out;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .badge-locked {
+            filter: grayscale(100%);
+            opacity: 0.5;
+        }
+        .drop-zone {
+            min-height: 52px;
+            border: 2px dashed #94a3b8;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s;
+        }
+        .drop-zone.drag-over {
+            background-color: #e0f2fe;
+            border-color: #0284c7;
+        }
+        .word-chip {
+            touch-action: manipulation;
+            cursor: grab;
+            user-select: none;
+        }
+        .word-chip:active {
+            cursor: grabbing;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .mic-active {
+            animation: pulse-ring 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Brand / Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="showPage('page-home')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white text-xl font-extrabold shadow-md">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-800 leading-tight">About Me</h1>
+                        <p class="text-xs text-slate-500 font-medium">English Grade 7 SMP</p>
+                    </div>
+                </div>
+
+                <!-- Stats Pill & Actions -->
+                <div class="flex items-center space-x-3">
+                    <!-- Gamification Bar -->
+                    <div class="hidden sm:flex items-center space-x-4 bg-slate-100 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-700 border border-slate-200">
+                        <span title="Total Points" class="flex items-center text-amber-500">
+                            <i class="fa-solid fa-star mr-1.5 text-sm"></i>
+                            <span id="nav-points">0</span> pts
+                        </span>
+                        <span class="text-slate-300">|</span>
+                        <span title="Streak Days" class="flex items-center text-orange-500">
+                            <i class="fa-solid fa-fire mr-1.5 text-sm"></i>
+                            <span id="nav-streak">1</span> Day
+                        </span>
+                        <span class="text-slate-300">|</span>
+                        <span title="Badges Unlocked" class="flex items-center text-indigo-600">
+                            <i class="fa-solid fa-award mr-1.5 text-sm"></i>
+                            <span id="nav-badges">0/5</span>
+                        </span>
+                    </div>
+
+                    <!-- Teacher Config & Docs Shortcuts -->
+                    <button onclick="openConfigModal()" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition" title="Teacher Configuration">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </button>
+                    <button onclick="openTeacherDocs()" class="p-2 rounded-lg text-indigo-600 hover:bg-indigo-50 transition" title="Open Learning Material (Docs)">
+                        <i class="fa-solid fa-file-word text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable Navigation Tabs -->
+        <nav class="bg-slate-50 border-t border-slate-200 px-4 overflow-x-auto custom-scrollbar">
+            <div class="max-w-7xl mx-auto flex space-x-1 py-2 text-sm font-medium whitespace-nowrap">
+                <button onclick="showPage('page-home')" id="nav-btn-home" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-house mr-1.5 text-indigo-500"></i>Home
+                </button>
+                <button onclick="showPage('page-objectives')" id="nav-btn-objectives" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-bullseye mr-1.5 text-red-500"></i>Objectives
+                </button>
+                <button onclick="showPage('page-vocab')" id="nav-btn-vocab" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-book-open mr-1.5 text-emerald-500"></i>Vocabulary
+                </button>
+                <button onclick="showPage('page-expressions')" id="nav-btn-expressions" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-comments mr-1.5 text-sky-500"></i>Expressions
+                </button>
+                <button onclick="showPage('page-sample')" id="nav-btn-sample" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-user-check mr-1.5 text-amber-500"></i>Sample Intro
+                </button>
+                <button onclick="showPage('page-dragdrop')" id="nav-btn-dragdrop" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-puzzle-piece mr-1.5 text-purple-500"></i>Sentence Order
+                </button>
+                <button onclick="showPage('page-mcq')" id="nav-btn-mcq" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-list-check mr-1.5 text-pink-500"></i>Multiple Choice
+                </button>
+                <button onclick="showPage('page-fill')" id="nav-btn-fill" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-pen-to-square mr-1.5 text-teal-500"></i>Fill Blanks
+                </button>
+                <button onclick="showPage('page-matching')" id="nav-btn-matching" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-equals mr-1.5 text-indigo-500"></i>Matching
+                </button>
+                <button onclick="showPage('page-builder')" id="nav-btn-builder" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1.5 text-amber-600"></i>Build Intro
+                </button>
+                <button onclick="showPage('page-speaking')" id="nav-btn-speaking" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-microphone mr-1.5 text-red-500"></i>Speaking
+                </button>
+                <button onclick="showPage('page-quiz')" id="nav-btn-quiz" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-trophy mr-1.5 text-yellow-500"></i>Final Quiz
+                </button>
+                <button onclick="showPage('page-progress')" id="nav-btn-progress" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-chart-line mr-1.5 text-blue-600"></i>Progress
+                </button>
+                <button onclick="showPage('page-teacher')" id="nav-btn-teacher" class="nav-tab px-3 py-1.5 rounded-lg text-slate-700 hover:bg-white hover:shadow-sm">
+                    <i class="fa-solid fa-chalkboard-user mr-1.5 text-violet-600"></i>Teacher Panel
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+        <!-- ==================== PAGE 1: HOME ==================== -->
+        <section id="page-home" class="page-section space-y-8">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-800 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="max-w-2xl relative z-10 space-y-4">
+                    <span class="inline-block px-3 py-1 bg-indigo-500/30 backdrop-blur-md border border-indigo-300/30 text-indigo-100 text-xs font-semibold uppercase tracking-wider rounded-full">
+                        Grade 7 English Module • SMP/MTs
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                        ABOUT ME<br/>
+                        <span class="text-amber-300">Let's Introduce Ourselves!</span>
+                    </h2>
+                    <p class="text-indigo-100 text-base sm:text-lg leading-relaxed">
+                        Learn how to introduce yourself confidently in English! Practice vocabulary, expressions, fun mini-games, speaking, and build your own personal introduction card.
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-3">
+                        <button onclick="showPage('page-objectives')" class="px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold rounded-xl shadow-lg hover:shadow-amber-400/20 transition transform active:scale-95 flex items-center">
+                            START LEARNING <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                        <button onclick="showPage('page-quiz')" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 backdrop-blur-md transition flex items-center">
+                            TAKE QUIZ <i class="fa-solid fa-trophy ml-2 text-amber-300"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Module Quick Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div onclick="showPage('page-vocab')" class="card-hover bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm cursor-pointer">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Vocabulary</h3>
+                    <p class="text-xs text-slate-500">Learn key words like Name, Age, Hobby, and Subject with native pronunciation.</p>
+                </div>
+
+                <div onclick="showPage('page-expressions')" class="card-hover bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm cursor-pointer">
+                    <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Expressions</h3>
+                    <p class="text-xs text-slate-500">Master essential phrases for greetings and sharing personal details.</p>
+                </div>
+
+                <div onclick="showPage('page-builder')" class="card-hover bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm cursor-pointer">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Build Your Intro</h3>
+                    <p class="text-xs text-slate-500">Fill out your information to generate, copy, listen to, and print your bio.</p>
+                </div>
+
+                <div onclick="showPage('page-speaking')" class="card-hover bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm cursor-pointer">
+                    <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-microphone"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-1">Speaking Practice</h3>
+                    <p class="text-xs text-slate-500">Practice speaking into your microphone with automated voice recognition.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 2: LEARNING OBJECTIVES ==================== -->
+        <section id="page-objectives" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-lg font-bold">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Learning Objectives</h2>
+                        <p class="text-sm text-slate-500">Tujuan Pembelajaran - Grade 7 English</p>
+                    </div>
+                </div>
+
+                <p class="text-slate-600 mb-6">
+                    By the end of this module, you will be able to check off all these goals:
+                </p>
+
+                <!-- Objectives Checklist -->
+                <div class="space-y-3" id="objectives-list">
+                    <!-- JS populated checklist items -->
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-slate-100 flex justify-end">
+                    <button onclick="showPage('page-vocab')" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition flex items-center">
+                        Next: Vocabulary Cards <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 3: VOCABULARY ==================== -->
+        <section id="page-vocab" class="page-section hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-800">Vocabulary Cards</h2>
+                    <p class="text-sm text-slate-500">Click speaker icon to listen to English pronunciation</p>
+                </div>
+                <div class="text-xs font-semibold px-3 py-1.5 bg-emerald-100 text-emerald-800 rounded-full">
+                    <i class="fa-solid fa-headphones mr-1"></i> Audio Supported
+                </div>
+            </div>
+
+            <!-- Vocab Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="vocab-cards-grid">
+                <!-- JS Populated Vocab Cards -->
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 4: EXPRESSIONS ==================== -->
+        <section id="page-expressions" class="page-section hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-extrabold text-slate-800">Expressions for Introducing Yourself</h2>
+                <p class="text-sm text-slate-500">Ungkapan penting untuk memperkenalkan diri dalam Bahasa Inggris</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="expressions-grid">
+                <!-- JS Populated Expressions -->
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 5: SAMPLE INTRO ==================== -->
+        <section id="page-sample" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-3xl mx-auto space-y-6">
+                <div class="flex justify-between items-center border-b pb-4 border-slate-100">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">How to Introduce Yourself</h2>
+                        <p class="text-sm text-slate-500">Contoh teks perkenalan sederhana oleh Rina</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-xl">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+
+                <!-- Text Presentation Box -->
+                <div id="sample-text-box" class="p-6 bg-slate-50 rounded-2xl border border-slate-200 text-slate-800 font-medium leading-relaxed space-y-2 text-lg">
+                    <p class="sample-line">Hello!</p>
+                    <p class="sample-line">My name is <span class="hl-name text-indigo-600 font-semibold">Rina</span>.</p>
+                    <p class="sample-line">I am <span class="hl-age text-emerald-600 font-semibold">12 years old</span>.</p>
+                    <p class="sample-line">I am from <span class="hl-city text-sky-600 font-semibold">Batam</span>.</p>
+                    <p class="sample-line">I am a student at <span class="hl-school text-purple-600 font-semibold">SMP Harapan</span>.</p>
+                    <p class="sample-line">I am in class <span class="hl-class text-pink-600 font-semibold">7A</span>.</p>
+                    <p class="sample-line">My hobby is <span class="hl-hobby text-amber-600 font-semibold">reading</span>.</p>
+                    <p class="sample-line">My favorite food is <span class="hl-food text-red-600 font-semibold">fried rice</span>.</p>
+                    <p class="sample-line">Nice to meet you!</p>
+                </div>
+
+                <!-- Interactive Buttons -->
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <button onclick="readSampleText()" class="flex-1 min-w-[140px] px-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition flex items-center justify-center">
+                        <i class="fa-solid fa-volume-high mr-2"></i> Listen Audio
+                    </button>
+                    <button onclick="toggleHighlightSample()" class="flex-1 min-w-[140px] px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl transition flex items-center justify-center">
+                        <i class="fa-solid fa-highlighter mr-2"></i> Highlight Key Info
+                    </button>
+                    <button onclick="showPage('page-dragdrop')" class="flex-1 min-w-[140px] px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition flex items-center justify-center">
+                        <i class="fa-solid fa-pen-line mr-2"></i> Practice Now
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 6: DRAG AND DROP ==================== -->
+        <section id="page-dragdrop" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-3xl mx-auto space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Sentence Ordering Activity</h2>
+                        <p class="text-sm text-slate-500">Arranging scrambled words into correct English sentences</p>
+                    </div>
+                    <span class="px-3 py-1 bg-purple-100 text-purple-700 font-bold text-sm rounded-full" id="dnd-score">
+                        Score: 0/5
+                    </span>
+                </div>
+
+                <!-- Game Container -->
+                <div id="dnd-game-container" class="space-y-6">
+                    <!-- JS Populated Questions -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 7: MULTIPLE CHOICE ==================== -->
+        <section id="page-mcq" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-3xl mx-auto space-y-6">
+                <div class="flex justify-between items-center border-b pb-4 border-slate-100">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Multiple Choice Practice</h2>
+                        <p class="text-sm text-slate-500">Pilihlah jawaban yang paling tepat!</p>
+                    </div>
+                    <span class="px-3 py-1 bg-pink-100 text-pink-700 font-bold text-sm rounded-full" id="mcq-score">
+                        Score: 0/10
+                    </span>
+                </div>
+
+                <div id="mcq-container" class="space-y-8">
+                    <!-- JS Populated MCQ Questions -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 8: COMPLETE THE SENTENCE ==================== -->
+        <section id="page-fill" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-3xl mx-auto space-y-6">
+                <div class="flex justify-between items-center border-b pb-4 border-slate-100">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Complete the Sentence</h2>
+                        <p class="text-sm text-slate-500">Isilah bagian rumpang dengan kata yang paling sesuai!</p>
+                    </div>
+                    <span class="px-3 py-1 bg-teal-100 text-teal-700 font-bold text-sm rounded-full" id="fill-score">
+                        Score: 0/10
+                    </span>
+                </div>
+
+                <div id="fill-container" class="space-y-8">
+                    <!-- JS Populated Fill Questions -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 9: MATCHING GAME ==================== -->
+        <section id="page-matching" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-4xl mx-auto space-y-6">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-800">Matching Game</h2>
+                    <p class="text-sm text-slate-500">Cocokkan kategori di sebelah kiri dengan contoh kalimat yang pas di sebelah kanan!</p>
+                </div>
+
+                <div id="matching-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- JS Populated Matching Game -->
+                </div>
+
+                <div class="flex justify-between items-center pt-4">
+                    <span id="matching-feedback" class="text-sm font-semibold text-slate-600">Click a category, then click its matching sentence.</span>
+                    <button onclick="resetMatchingGame()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Reset Game
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 10: BUILD YOUR INTRODUCTION ==================== -->
+        <section id="page-builder" class="page-section hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Form Input Card -->
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="border-b pb-3 border-slate-100">
+                        <h2 class="text-2xl font-extrabold text-slate-800">Build Your Bio</h2>
+                        <p class="text-sm text-slate-500">Isi formulir di bawah ini untuk membuat teks perkenalan otomatis!</p>
+                    </div>
+
+                    <form id="bio-form" class="space-y-3" onsubmit="event.preventDefault(); generateBioText();">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
+                            <input type="text" id="bio-name" required placeholder="e.g., Andi Pratama" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Age (Years) *</label>
+                                <input type="number" id="bio-age" required min="10" max="20" placeholder="12" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Class *</label>
+                                <input type="text" id="bio-class" required placeholder="7A" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Origin City *</label>
+                                <input type="text" id="bio-from" required placeholder="Batam" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Live In (City) *</label>
+                                <input type="text" id="bio-live" required placeholder="Batam" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">School Name *</label>
+                            <input type="text" id="bio-school" required placeholder="SMP Harapan" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Hobby *</label>
+                                <input type="text" id="bio-hobby" required placeholder="playing football" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Favorite Food *</label>
+                                <input type="text" id="bio-food" required placeholder="fried rice" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Favorite Color</label>
+                                <input type="text" id="bio-color" placeholder="blue" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Favorite Subject</label>
+                                <input type="text" id="bio-subject" placeholder="English" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition mt-2">
+                            <i class="fa-solid fa-sparkles mr-2"></i> Generate My Text
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Generated Output Card -->
+                <div class="bg-gradient-to-br from-indigo-900 to-slate-900 p-6 sm:p-8 rounded-3xl text-white shadow-xl flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-indigo-700/50 pb-4 mb-4">
+                            <h3 class="text-xl font-bold text-amber-300 flex items-center">
+                                <i class="fa-solid fa-id-card mr-2"></i> Generated Introduction
+                            </h3>
+                            <span class="text-xs bg-indigo-800 text-indigo-200 px-2.5 py-1 rounded-full">Ready</span>
+                        </div>
+
+                        <div id="bio-output-text" class="p-5 bg-indigo-950/60 rounded-2xl border border-indigo-800 text-indigo-100 leading-relaxed font-sans min-h-[220px] whitespace-pre-line text-base">
+                            Hello!
+                            My name is [Your Name].
+                            I am [Your Age] years old.
+                            I am from [Your City].
+                            I live in [Your City].
+                            I am a student at [Your School].
+                            I am in class [Your Class].
+                            My hobby is [Your Hobby].
+                            My favorite food is [Your Food].
+                            Nice to meet you!
+                        </div>
+                    </div>
+
+                    <!-- Output Control Action Buttons -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+                        <button onclick="copyBioText()" class="px-3 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-copy mr-1.5"></i> Copy
+                        </button>
+                        <button onclick="listenBioText()" class="px-3 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-volume-high mr-1.5"></i> Listen
+                        </button>
+                        <button onclick="printBioText()" class="px-3 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-print mr-1.5"></i> Print
+                        </button>
+                        <button onclick="saveBioText()" class="px-3 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-download mr-1.5"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 11: SPEAKING PRACTICE ==================== -->
+        <section id="page-speaking" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-3xl mx-auto space-y-6 text-center">
+                <div class="max-w-md mx-auto space-y-2">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Speaking Practice</h2>
+                    <p class="text-sm text-slate-500">Read the prompts aloud into your microphone to practice English pronunciation.</p>
+                </div>
+
+                <!-- Speech Prompt Card -->
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 text-left space-y-3">
+                    <p class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Practice Text Script:</p>
+                    <div class="text-lg font-medium text-slate-800 leading-relaxed space-y-1" id="speaking-target-text">
+                        "Hello, my name is Alex. I am 12 years old. I am from Batam. My hobby is reading. Nice to meet you."
+                    </div>
+                </div>
+
+                <!-- Voice Recording Widget -->
+                <div class="py-4 space-y-4">
+                    <button id="mic-btn" onclick="toggleSpeechRecognition()" class="w-24 h-24 rounded-full bg-red-500 hover:bg-red-600 text-white text-3xl shadow-xl transition transform active:scale-95 flex items-center justify-center mx-auto">
+                        <i class="fa-solid fa-microphone" id="mic-icon"></i>
+                    </button>
+                    <p class="text-sm font-bold text-slate-700" id="speech-status">Click microphone to START SPEAKING</p>
+                </div>
+
+                <!-- Recognized Speech Output -->
+                <div id="speech-output-box" class="p-4 bg-indigo-50 border border-indigo-200 rounded-xl text-left text-sm text-indigo-900 hidden space-y-2">
+                    <span class="font-bold text-indigo-700">Speech Recognized:</span>
+                    <p id="speech-transcript" class="italic text-slate-700">"..."</p>
+                    <div id="speech-feedback" class="text-xs font-semibold pt-1"></div>
+                </div>
+
+                <!-- Fallback Warning Box if Speech Recognition not supported -->
+                <div id="speech-unsupported-msg" class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 hidden">
+                    <i class="fa-solid fa-triangle-exclamation mr-1 text-amber-600"></i>
+                    Speech recognition is not fully supported on this browser. You can practice by reading the text aloud yourself!
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 12: FINAL QUIZ ==================== -->
+        <section id="page-quiz" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-4xl mx-auto space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4 border-slate-100">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Final Competency Quiz</h2>
+                        <p class="text-sm text-slate-500">15 Comprehensive questions (Multiple Choice, Fill Blanks, Sentence Order)</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-bold text-slate-500">Student Name:</span>
+                        <input type="text" id="quiz-student-name" placeholder="Enter full name" class="px-3 py-1.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+
+                <!-- Quiz Questions Form -->
+                <div id="final-quiz-container" class="space-y-8">
+                    <!-- JS Populated 15 Quiz Questions -->
+                </div>
+
+                <div class="pt-6 border-t border-slate-100 flex justify-end">
+                    <button onclick="submitFinalQuiz()" class="px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg transition transform active:scale-95 flex items-center">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Submit Quiz & Save Progress
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 13: MY PROGRESS ==================== -->
+        <section id="page-progress" class="page-section hidden space-y-8">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-800">My Learning Progress</h2>
+                    <p class="text-sm text-slate-500">Track your completed modules, achievements, and earned badges</p>
+                </div>
+
+                <!-- Progress Meters -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <span>Vocabulary</span>
+                            <span id="prog-vocab-pct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="prog-vocab-bar" class="bg-emerald-500 h-full w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <span>Expressions</span>
+                            <span id="prog-expr-pct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="prog-expr-bar" class="bg-sky-500 h-full w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <span>Practice Activities</span>
+                            <span id="prog-pract-pct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="prog-pract-bar" class="bg-purple-500 h-full w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <span>Final Quiz</span>
+                            <span id="prog-quiz-pct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="prog-quiz-bar" class="bg-amber-500 h-full w-0 transition-all duration-500"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Badges Gallery -->
+                <div class="space-y-4 pt-4">
+                    <h3 class="text-lg font-bold text-slate-800">Earned Badges</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" id="badges-gallery">
+                        <!-- JS Populated Badges -->
+                    </div>
+                </div>
+
+                <div class="pt-4 flex justify-end">
+                    <button onclick="resetAllProgress()" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 font-semibold rounded-xl text-xs transition">
+                        <i class="fa-solid fa-trash-can mr-1"></i> Reset Progress Data
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE 14: TEACHER DASHBOARD ==================== -->
+        <section id="page-teacher" class="page-section hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4 border-slate-100">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Teacher Dashboard</h2>
+                        <p class="text-sm text-slate-500">Manage learning settings, Google Sheets integration, and student results</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="openTeacherSheets()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition flex items-center">
+                            <i class="fa-solid fa-file-excel mr-1.5"></i> Open Google Sheets
+                        </button>
+                        <button onclick="openTeacherDocs()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition flex items-center">
+                            <i class="fa-solid fa-file-word mr-1.5"></i> Open Google Docs
+                        </button>
+                        <button onclick="openConfigModal()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition flex items-center">
+                            <i class="fa-solid fa-gear mr-1.5"></i> Configure URLs
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Student Results Table -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-bold text-slate-800">Recent Quiz Results (Local Backup)</h3>
+                        <button onclick="clearLocalStudentResults()" class="text-xs text-red-600 hover:underline">Clear Local Log</button>
+                    </div>
+                    <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-xs text-slate-700 uppercase border-b border-slate-200">
+                                <tr>
+                                    <th class="px-4 py-3">Date</th>
+                                    <th class="px-4 py-3">Student Name</th>
+                                    <th class="px-4 py-3">Class</th>
+                                    <th class="px-4 py-3">Score</th>
+                                    <th class="px-4 py-3">Percentage</th>
+                                    <th class="px-4 py-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teacher-results-table">
+                                <!-- JS Populated Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Setup Guide Tabs / Accordion -->
+                <div class="pt-6 border-t border-slate-100 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800">Google Apps Script Setup Instructions</h3>
+                    
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-700 leading-relaxed space-y-3">
+                        <p class="font-bold text-slate-900 text-sm">Langkah Integrasi Google Spreadsheet & Web App:</p>
+                        <ol class="list-decimal list-inside space-y-1">
+                            <li>Buat <strong>Google Spreadsheet</strong> baru di Google Drive Anda.</li>
+                            <li>Beri nama header di Baris 1: <code class="bg-slate-200 px-1 rounded">Timestamp | Student Name | Class | Score | Total Questions | Percentage | Completed Activities</code></li>
+                            <li>Buka menu <strong>Extensions &gt; Apps Script</strong>.</li>
+                            <li>Salin kode <strong>Code.gs</strong> di bawah ini lalu tempelkan ke editor Apps Script.</li>
+                            <li>Klik <strong>Deploy &gt; New deployment</strong>. Pilih type <strong>Web app</strong>.</li>
+                            <li>Atur Execute as: <strong>Me</strong>, dan Who has access: <strong>Anyone</strong>. Klik <strong>Deploy</strong>.</li>
+                            <li>Salin <strong>Web App URL</strong> yang dihasilkan, lalu masukkan ke menu <strong>Configure URLs</strong> di aplikasi ini!</li>
+                        </ol>
+
+                        <div class="pt-2">
+                            <span class="font-bold text-slate-800 block mb-1">Source Code Apps Script (Code.gs):</span>
+                            <textarea id="apps-script-code" readonly class="w-full h-40 p-3 bg-slate-900 text-emerald-400 font-mono text-xs rounded-xl focus:outline-none">
+function doGet(e) {
+  return ContentService.createTextOutput("Google Apps Script Endpoint Active!");
+}
+
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    
+    sheet.appendRow([
+      data.date || new Date().toISOString(),
+      data.studentName || "Anonymous",
+      data.className || "7",
+      data.score || 0,
+      data.totalQuestions || 15,
+      (data.percentage || 0) + "%",
+      Array.isArray(data.completedActivities) ? data.completedActivities.join(", ") : ""
+    ]);
+    
+    return ContentService.createTextOutput(JSON.stringify({"result": "success"}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({"result": "error", "error": err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}</textarea>
+                            <button onclick="copyAppsScriptCode()" class="mt-2 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg transition">
+                                <i class="fa-solid fa-copy mr-1"></i> Copy Code.gs
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Teacher Configuration Modal -->
+    <div id="config-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 border border-slate-100">
+            <div class="flex justify-between items-center border-b pb-3 border-slate-100">
+                <h3 class="text-xl font-extrabold text-slate-800"><i class="fa-solid fa-sliders text-indigo-600 mr-2"></i> Teacher Settings</h3>
+                <button onclick="closeConfigModal()" class="text-slate-400 hover:text-slate-600 text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-sm">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Teacher Name</label>
+                    <input type="text" id="cfg-teacher-name" placeholder="e.g., Ibu/Bapak Guru" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">School Name</label>
+                    <input type="text" id="cfg-school-name" placeholder="e.g., SMP Harapan Batam" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Google Apps Script URL (Web App Endpoint)</label>
+                    <input type="url" id="cfg-script-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 text-xs">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Google Docs Material URL</label>
+                    <input type="url" id="cfg-docs-url" placeholder="https://docs.google.com/document/d/..." class="w-full px-3.5 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 text-xs">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Google Sheets Results View URL</label>
+                    <input type="url" id="cfg-sheets-url" placeholder="https://docs.google.com/spreadsheets/d/..." class="w-full px-3.5 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 text-xs">
+                </div>
+            </div>
+
+            <div class="pt-2 flex space-x-3">
+                <button onclick="saveConfigSettings()" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition text-sm">
+                    Save Configuration
+                </button>
+                <button onclick="closeConfigModal()" class="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition text-sm">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback / Notification Modal -->
+    <div id="feedback-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-3xl p-6 text-center space-y-4 shadow-2xl border border-slate-100">
+            <div id="fb-icon-box" class="w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-3xl mx-auto">
+                <i class="fa-solid fa-trophy" id="fb-icon"></i>
+            </div>
+            <h4 class="text-xl font-extrabold text-slate-800" id="fb-title">Great Job!</h4>
+            <p class="text-sm text-slate-600 leading-relaxed" id="fb-message">You completed the activity successfully.</p>
+            <button onclick="closeFeedbackModal()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition text-sm">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p>© Grade 7 SMP English Learning Media • <span id="footer-school-name">SMP Harapan</span></p>
+            <p>Teacher: <span id="footer-teacher-name" class="font-semibold text-slate-700">Ibu/Bapak Guru</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Default Configuration
+        let TEACHER_CONFIG = {
+            teacherName: "Ibu/Bapak Guru",
+            schoolName: "SMP Harapan",
+            googleScriptUrl: "",
+            googleDocsUrl: "",
+            googleSheetsUrl: ""
+        };
+
+        // User State Data
+        let userState = {
+            points: 0,
+            streak: 1,
+            completedActivities: [],
+            badges: [],
+            quizScore: 0,
+            quizTotal: 15,
+            studentName: "",
+            className: "7A"
+        };
+
+        // Vocabulary Dataset
+        const VOCAB_DATA = [
+            { word: "Name", meaning: "Nama", example: "My name is Rina.", icon: "fa-id-card" },
+            { word: "Age", meaning: "Umur", example: "I am 12 years old.", icon: "fa-cake-candles" },
+            { word: "Address", meaning: "Alamat", example: "My address is Jl. Mawar No. 5.", icon: "fa-map-location-dot" },
+            { word: "City", meaning: "Kota", example: "I live in Batam city.", icon: "fa-city" },
+            { word: "Country", meaning: "Negara", example: "I am from Indonesia.", icon: "fa-flag" },
+            { word: "School", meaning: "Sekolah", example: "I am a student at SMP Harapan.", icon: "fa-school" },
+            { word: "Class", meaning: "Kelas", example: "I am in class 7A.", icon: "fa-users-rectangle" },
+            { word: "Hobby", meaning: "Hobi", example: "My hobby is reading books.", icon: "fa-gamepad" },
+            { word: "Favorite food", meaning: "Makanan favorit", example: "My favorite food is fried rice.", icon: "fa-utensils" },
+            { word: "Favorite color", meaning: "Warna favorit", example: "My favorite color is blue.", icon: "fa-palette" },
+            { word: "Favorite subject", meaning: "Pelajaran favorit", example: "My favorite subject is English.", icon: "fa-book" },
+            { word: "Family", meaning: "Keluarga", example: "I live with my family.", icon: "fa-people-roof" }
+        ];
+
+        // Expressions Dataset
+        const EXPRESSIONS_DATA = [
+            { expr: "Hello! / Hi!", meaning: "Halo!", example: "Hello! Nice to see you." },
+            { expr: "Good morning!", meaning: "Selamat pagi!", example: "Good morning, everyone!" },
+            { expr: "My name is ...", meaning: "Nama saya adalah ...", example: "My name is Andi." },
+            { expr: "I am ... years old.", meaning: "Saya berumur ... tahun.", example: "I am 12 years old." },
+            { expr: "I am from ...", meaning: "Saya berasal dari ...", example: "I am from Batam." },
+            { expr: "I live in ...", meaning: "Saya tinggal di ...", example: "I live in Sekupang." },
+            { expr: "I am a student at ...", meaning: "Saya murid di ...", example: "I am a student at SMP 1." },
+            { expr: "I am in class ...", meaning: "Saya berada di kelas ...", example: "I am in class 7B." },
+            { expr: "My hobby is ...", meaning: "Hobi saya adalah ...", example: "My hobby is playing football." },
+            { expr: "Nice to meet you.", meaning: "Senang bertemu denganmu.", example: "Nice to meet you too!" }
+        ];
+
+        // Sentence Ordering Dataset
+        const DND_DATA = [
+            { scrambled: ["name", "My", "is", "Rina"], correct: "My name is Rina" },
+            { scrambled: ["am", "12", "I", "old", "years"], correct: "I am 12 years old" },
+            { scrambled: ["from", "I", "Batam", "am"], correct: "I am from Batam" },
+            { scrambled: ["hobby", "reading", "is", "My"], correct: "My hobby is reading" },
+            { scrambled: ["meet", "to", "Nice", "you"], correct: "Nice to meet you" }
+        ];
+
+        // Multiple Choice Practice Dataset
+        const MCQ_DATA = [
+            { q: "What is your name?", options: ["I am 12 years old.", "My name is Rina.", "I live in Batam.", "My hobby is reading."], answer: 1 },
+            { q: "How old are you?", options: ["I am 12 years old.", "I am from Jakarta.", "My name is Budi.", "I like pizza."], answer: 0 },
+            { q: "Where are you from?", options: ["My favorite food is rice.", "I am in class 7A.", "I am from Batam.", "I am a student."], answer: 2 },
+            { q: "What is your hobby?", options: ["My hobby is swimming.", "I am 13 years old.", "I live in Medan.", "Nice to meet you."], answer: 0 },
+            { q: "Where do you live?", options: ["I live in Surabaya.", "My name is Sarah.", "I am 12 years old.", "My hobby is cooking."], answer: 0 },
+            { q: "What class are you in?", options: ["I am in class 7A.", "I am 12 years old.", "My name is Doni.", "I live in Bali."], answer: 0 },
+            { q: "Where do you study?", options: ["I am a student at SMP 1.", "I am from Bandung.", "I like blue color.", "My hobby is music."], answer: 0 },
+            { q: "What is your favorite color?", options: ["My favorite color is blue.", "I am 12 years old.", "I live in Semarang.", "My name is Ani."], answer: 0 },
+            { q: "What is your favorite food?", options: ["My favorite food is fried noodles.", "I am from Solo.", "I am in class 7C.", "Nice to meet you."], answer: 0 },
+            { q: "How do you respond to 'Nice to meet you'?", options: ["Nice to meet you too.", "I am 12 years old.", "My name is Eko.", "I live in Batam."], answer: 0 }
+        ];
+
+        // Fill in the Blank Dataset
+        const FILL_DATA = [
+            { sentence: "My _____ is Andi.", options: ["name", "age", "hobby", "school"], answer: 0 },
+            { sentence: "I am 12 _____ old.", options: ["days", "years", "months", "hours"], answer: 1 },
+            { sentence: "I am _____ Batam.", options: ["from", "on", "under", "between"], answer: 0 },
+            { sentence: "I _____ in Sekupang.", options: ["live", "fly", "swim", "sleep"], answer: 0 },
+            { sentence: "My _____ is playing football.", options: ["hobby", "address", "name", "age"], answer: 0 },
+            { sentence: "I am a _____ at SMP Harapan.", options: ["student", "teacher", "doctor", "driver"], answer: 0 },
+            { sentence: "My favorite _____ is fried rice.", options: ["food", "color", "subject", "city"], answer: 0 },
+            { sentence: "My favorite color _____ red.", options: ["is", "are", "am", "were"], answer: 0 },
+            { sentence: "Nice to _____ you.", options: ["meet", "eat", "see", "read"], answer: 0 },
+            { sentence: "I am in _____ 7A.", options: ["class", "house", "car", "park"], answer: 0 }
+        ];
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop current playing speech
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                showFeedbackModal("Audio Unsupported", "Your browser does not support Web Speech API audio output.", "fa-volume-xmark");
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
+            const target = document.getElementById(pageId);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('bg-white', 'shadow-sm', 'text-indigo-600');
+                tab.classList.add('text-slate-700');
+            });
+            const activeTab = document.getElementById('nav-btn-' + pageId.replace('page-', ''));
+            if (activeTab) {
+                activeTab.classList.add('bg-white', 'shadow-sm', 'text-indigo-600');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderObjectives() {
+            const list = [
+                "Say my name in English.",
+                "Tell my age clearly.",
+                "Tell where I am from and where I live.",
+                "Talk about my hobby and favorite things.",
+                "Introduce myself confidently in front of others.",
+                "Ask someone about their personal information."
+            ];
+            const container = document.getElementById('objectives-list');
+            container.innerHTML = list.map((obj, i) => `
+                <label class="flex items-center space-x-3 p-3.5 bg-slate-50 hover:bg-slate-100/80 rounded-2xl cursor-pointer border border-slate-200/80 transition">
+                    <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-slate-300" onchange="addPoints(5); markActivityDone('Objectives');">
+                    <span class="text-sm font-semibold text-slate-700">${obj}</span>
+                </label>
+            `).join('');
+        }
+
+        function renderVocabCards() {
+            const container = document.getElementById('vocab-cards-grid');
+            container.innerHTML = VOCAB_DATA.map(item => `
+                <div class="card-hover bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-3">
+                    <div class="flex justify-between items-start">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
+                            <i class="fa-solid ${item.icon}"></i>
+                        </div>
+                        <button onclick="speakText('${item.word}. ${item.example}')" class="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-600 transition" title="Listen Pronunciation">
+                            <i class="fa-solid fa-volume-high text-base"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">${item.word}</h3>
+                        <p class="text-xs font-semibold text-emerald-600">${item.meaning}</p>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                        <p class="text-xs text-slate-600 font-medium italic">"${item.example}"</p>
+                    </div>
+                </div>
+            `).join('');
+            markActivityDone('Vocabulary');
+        }
+
+        function renderExpressions() {
+            const container = document.getElementById('expressions-grid');
+            container.innerHTML = EXPRESSIONS_DATA.map(item => `
+                <div class="card-hover bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex justify-between items-center space-x-3">
+                    <div class="space-y-1">
+                        <h4 class="text-base font-bold text-slate-800">${item.expr}</h4>
+                        <p class="text-xs font-semibold text-sky-600">${item.meaning}</p>
+                        <p class="text-xs text-slate-500 italic">Ex: "${item.example}"</p>
+                    </div>
+                    <button onclick="speakText('${item.expr}')" class="p-3 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-600 transition flex-shrink-0">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+            `).join('');
+            markActivityDone('Expressions');
+        }
+
+        function readSampleText() {
+            const sample = "Hello! My name is Rina. I am 12 years old. I am from Batam. I am a student at SMP Harapan. I am in class 7A. My hobby is reading. My favorite food is fried rice. Nice to meet you!";
+            speakText(sample);
+            addPoints(5);
+        }
+
+        let isHighlighted = false;
+        function toggleHighlightSample() {
+            isHighlighted = !isHighlighted;
+            const elements = document.querySelectorAll('#sample-text-box span');
+            elements.forEach(el => {
+                if (isHighlighted) {
+                    el.classList.add('px-1.5', 'py-0.5', 'bg-amber-200', 'rounded', 'font-bold');
+                } else {
+                    el.classList.remove('px-1.5', 'py-0.5', 'bg-amber-200', 'rounded', 'font-bold');
+                }
+            });
+        }
+
+        let dndScores = Array(DND_DATA.length).fill(false);
+
+        function renderDND() {
+            const container = document.getElementById('dnd-game-container');
+            container.innerHTML = DND_DATA.map((q, idx) => `
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                    <span class="text-xs font-bold text-purple-600 uppercase">Question ${idx + 1}</span>
+                    <!-- Drop Slot -->
+                    <div id="dnd-slot-${idx}" class="drop-zone p-2.5 flex flex-wrap gap-2 items-center bg-white"></div>
+                    <!-- Source Chips -->
+                    <div id="dnd-source-${idx}" class="flex flex-wrap gap-2 pt-2">
+                        ${q.scrambled.map(word => `
+                            <button onclick="moveChip(this, ${idx})" class="word-chip px-3 py-1.5 bg-purple-100 hover:bg-purple-200 text-purple-900 font-semibold text-xs rounded-xl shadow-sm">
+                                ${word}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="flex justify-between items-center pt-2">
+                        <button onclick="checkDNDAnswer(${idx})" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-xs transition">
+                            Check Answer
+                        </button>
+                        <span id="dnd-result-${idx}" class="text-xs font-bold"></span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function moveChip(chip, qIdx) {
+            const slot = document.getElementById(`dnd-slot-${qIdx}`);
+            const source = document.getElementById(`dnd-source-${qIdx}`);
+            if (chip.parentElement === slot) {
+                source.appendChild(chip);
+            } else {
+                slot.appendChild(chip);
+            }
+        }
+
+        function checkDNDAnswer(qIdx) {
+            const slot = document.getElementById(`dnd-slot-${qIdx}`);
+            const userSentence = Array.from(slot.children).map(c => c.innerText.trim()).join(' ');
+            const resultEl = document.getElementById(`dnd-result-${qIdx}`);
+
+            if (userSentence === DND_DATA[qIdx].correct) {
+                resultEl.className = "text-xs font-bold text-emerald-600";
+                resultEl.innerText = "Great job! 🎉";
+                if (!dndScores[qIdx]) {
+                    dndScores[qIdx] = true;
+                    addPoints(10);
+                }
+            } else {
+                resultEl.className = "text-xs font-bold text-red-600";
+                resultEl.innerText = "Try again!";
+            }
+
+            const totalScore = dndScores.filter(Boolean).length;
+            document.getElementById('dnd-score').innerText = `Score: ${totalScore}/5`;
+            markActivityDone('Practice');
+        }
+
+        let mcqScores = Array(MCQ_DATA.length).fill(false);
+
+        function renderMCQ() {
+            const container = document.getElementById('mcq-container');
+            container.innerHTML = MCQ_DATA.map((q, idx) => `
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                    <p class="text-sm font-bold text-slate-800">${idx + 1}. ${q.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${q.options.map((opt, oIdx) => `
+                            <button onclick="checkMCQAnswer(${idx}, ${oIdx}, this)" class="option-btn-${idx} w-full text-left p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-xs font-medium text-slate-700 transition">
+                                ${String.fromCharCode(65 + oIdx)}. ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <p id="mcq-feedback-${idx}" class="text-xs font-bold hidden"></p>
+                </div>
+            `).join('');
+        }
+
+        function checkMCQAnswer(qIdx, selectedOpt, btn) {
+            const correctOpt = MCQ_DATA[qIdx].answer;
+            const buttons = document.querySelectorAll(`.option-btn-${qIdx}`);
+            buttons.forEach(b => b.disabled = true);
+
+            const feedback = document.getElementById(`mcq-feedback-${qIdx}`);
+            feedback.classList.remove('hidden');
+
+            if (selectedOpt === correctOpt) {
+                btn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+                feedback.className = 'text-xs font-bold text-emerald-600';
+                feedback.innerText = 'Correct! 🎉';
+                if (!mcqScores[qIdx]) {
+                    mcqScores[qIdx] = true;
+                    addPoints(5);
+                }
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-900');
+                buttons[correctOpt].classList.add('bg-emerald-100', 'border-emerald-500');
+                feedback.className = 'text-xs font-bold text-red-600';
+                feedback.innerText = 'Incorrect. Try reviewing the lesson!';
+            }
+
+            const totalScore = mcqScores.filter(Boolean).length;
+            document.getElementById('mcq-score').innerText = `Score: ${totalScore}/10`;
+            markActivityDone('Practice');
+        }
+
+        let fillScores = Array(FILL_DATA.length).fill(false);
+
+        function renderFill() {
+            const container = document.getElementById('fill-container');
+            container.innerHTML = FILL_DATA.map((q, idx) => `
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                    <p class="text-sm font-bold text-slate-800">${idx + 1}. ${q.sentence}</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        ${q.options.map((opt, oIdx) => `
+                            <button onclick="checkFillAnswer(${idx}, ${oIdx}, this)" class="fill-btn-${idx} w-full p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-xs font-semibold text-slate-700 transition">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <p id="fill-feedback-${idx}" class="text-xs font-bold hidden"></p>
+                </div>
+            `).join('');
+        }
+
+        function checkFillAnswer(qIdx, selectedOpt, btn) {
+            const correctOpt = FILL_DATA[qIdx].answer;
+            const buttons = document.querySelectorAll(`.fill-btn-${qIdx}`);
+            buttons.forEach(b => b.disabled = true);
+
+            const feedback = document.getElementById(`fill-feedback-${qIdx}`);
+            feedback.classList.remove('hidden');
+
+            if (selectedOpt === correctOpt) {
+                btn.classList.add('bg-teal-100', 'border-teal-500', 'text-teal-900');
+                feedback.className = 'text-xs font-bold text-teal-600';
+                feedback.innerText = 'Correct! 🎉';
+                if (!fillScores[qIdx]) {
+                    fillScores[qIdx] = true;
+                    addPoints(5);
+                }
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-900');
+                buttons[correctOpt].classList.add('bg-teal-100', 'border-teal-500');
+                feedback.className = 'text-xs font-bold text-red-600';
+                feedback.innerText = 'Incorrect.';
+            }
+
+            const totalScore = fillScores.filter(Boolean).length;
+            document.getElementById('fill-score').innerText = `Score: ${totalScore}/10`;
+            markActivityDone('Practice');
+        }
+
+        const MATCHING_PAIRS = [
+            { category: "Name", sentence: "My name is Andi." },
+            { category: "Age", sentence: "I am 12 years old." },
+            { category: "Hobby", sentence: "My hobby is reading." },
+            { category: "City", sentence: "I am from Batam." },
+            { category: "Favorite Food", sentence: "My favorite food is fried rice." }
+        ];
+
+        let selectedCategory = null;
+
+        function renderMatchingGame() {
+            const container = document.getElementById('matching-container');
+            const shuffledSentences = [...MATCHING_PAIRS].sort(() => Math.random() - 0.5);
+
+            container.innerHTML = `
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-500 uppercase">Categories</h4>
+                    ${MATCHING_PAIRS.map(item => `
+                        <button onclick="selectCategory('${item.category}', this)" class="matching-cat-btn w-full p-3.5 bg-slate-50 hover:bg-indigo-50 border border-slate-200 rounded-xl text-left font-bold text-sm text-slate-800 transition">
+                            ${item.category}
+                        </button>
+                    `).join('')}
+                </div>
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-500 uppercase">Sentences</h4>
+                    ${shuffledSentences.map(item => `
+                        <button onclick="selectSentence('${item.sentence}', this)" class="matching-sent-btn w-full p-3.5 bg-slate-50 hover:bg-indigo-50 border border-slate-200 rounded-xl text-left font-medium text-sm text-slate-700 transition">
+                            ${item.sentence}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function selectCategory(cat, btn) {
+            document.querySelectorAll('.matching-cat-btn').forEach(b => b.classList.remove('bg-indigo-100', 'border-indigo-500'));
+            selectedCategory = cat;
+            btn.classList.add('bg-indigo-100', 'border-indigo-500');
+        }
+
+        function selectSentence(sent, btn) {
+            if (!selectedCategory) {
+                document.getElementById('matching-feedback').innerText = "Please select a category first!";
+                return;
+            }
+            const pair = MATCHING_PAIRS.find(p => p.category === selectedCategory);
+            if (pair && pair.sentence === sent) {
+                btn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+                document.getElementById('matching-feedback').innerText = `Matched: ${selectedCategory} → ${sent} 🎉`;
+                addPoints(10);
+                markActivityDone('Practice');
+            } else {
+                document.getElementById('matching-feedback').innerText = "Incorrect match. Try again!";
+            }
+        }
+
+        function resetMatchingGame() {
+            selectedCategory = null;
+            document.getElementById('matching-feedback').innerText = "Click a category, then click its matching sentence.";
+            renderMatchingGame();
+        }
+
+        function generateBioText() {
+            const name = document.getElementById('bio-name').value || "Andi";
+            const age = document.getElementById('bio-age').value || "12";
+            const from = document.getElementById('bio-from').value || "Batam";
+            const live = document.getElementById('bio-live').value || "Batam";
+            const school = document.getElementById('bio-school').value || "SMP Harapan";
+            const cls = document.getElementById('bio-class').value || "7A";
+            const hobby = document.getElementById('bio-hobby').value || "playing football";
+            const food = document.getElementById('bio-food').value || "fried rice";
+            const color = document.getElementById('bio-color').value || "blue";
+            const subject = document.getElementById('bio-subject').value || "English";
+
+            const text = `Hello!
+My name is ${name}.
+I am ${age} years old.
+I am from ${from}.
+I live in ${live}.
+I am a student at ${school}.
+I am in class ${cls}.
+My hobby is ${hobby}.
+My favorite food is ${food}.
+${color ? `My favorite color is ${color}.\n` : ''}${subject ? `My favorite subject is ${subject}.\n` : ''}Nice to meet you!`;
+
+            document.getElementById('bio-output-text').innerText = text;
+            addPoints(15);
+            markActivityDone('Build Intro');
+            showFeedbackModal("Bio Generated! 🎉", "Your introduction text is ready to copy or listen.", "fa-wand-magic-sparkles");
+        }
+
+        function copyBioText() {
+            const text = document.getElementById('bio-output-text').innerText;
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            showFeedbackModal("Copied!", "Bio text copied to clipboard.", "fa-copy");
+        }
+
+        function listenBioText() {
+            const text = document.getElementById('bio-output-text').innerText;
+            speakText(text);
+        }
+
+        function printBioText() {
+            const text = document.getElementById('bio-output-text').innerText;
+            const win = window.open('', '', 'width=600,height=400');
+            win.document.write(`<pre style="font-family: sans-serif; padding: 20px;">${text}</pre>`);
+            win.document.close();
+            win.print();
+        }
+
+        function saveBioText() {
+            const text = document.getElementById('bio-output-text').innerText;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'My_English_Introduction.txt';
+            link.click();
+        }
+
+        let recognition = null;
+        let isListening = false;
+
+        function toggleSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            if (!SpeechRecognition) {
+                document.getElementById('speech-unsupported-msg').classList.remove('hidden');
+                return;
+            }
+
+            if (isListening) {
+                if (recognition) recognition.stop();
+                return;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+
+            recognition.onstart = () => {
+                isListening = true;
+                document.getElementById('mic-btn').classList.add('mic-active');
+                document.getElementById('speech-status').innerText = "Listening... Speak clearly into your mic!";
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('speech-output-box').classList.remove('hidden');
+                document.getElementById('speech-transcript').innerText = `"${transcript}"`;
+
+                const targetText = "Hello, my name is Alex. I am 12 years old. I am from Batam. My hobby is reading. Nice to meet you.";
+                document.getElementById('speech-feedback').innerText = "Great pronunciation practice! +10 Points";
+                document.getElementById('speech-feedback').className = "text-xs font-bold text-emerald-600";
+
+                addPoints(10);
+                markActivityDone('Speaking');
+            };
+
+            recognition.onerror = () => {
+                document.getElementById('speech-status').innerText = "Error listening. Please try again.";
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                document.getElementById('mic-btn').classList.remove('mic-active');
+                document.getElementById('speech-status').innerText = "Click microphone to START SPEAKING";
+            };
+
+            recognition.start();
+        }
+
+        const QUIZ_QUESTIONS = [
+            { q: "What is your name?", options: ["My name is Budi.", "I am 12 years old.", "I live in Batam.", "I like pizza."], answer: 0 },
+            { q: "How old are you?", options: ["I am 12 years old.", "I am from Surabaya.", "My hobby is football.", "I am in class 7A."], answer: 0 },
+            { q: "Where do you live?", options: ["I live in Jakarta.", "My name is Ana.", "I am 13 years old.", "Nice to meet you."], answer: 0 },
+            { q: "What is your hobby?", options: ["My hobby is swimming.", "I am a student.", "I live in Solo.", "I am from Batam."], answer: 0 },
+            { q: "What class are you in?", options: ["I am in class 7B.", "I am 12 years old.", "My favorite food is rice.", "I study at home."], answer: 0 },
+            { q: "Complete: 'I am a _____ at SMP Harapan.'", options: ["student", "teacher", "doctor", "chef"], answer: 0 },
+            { q: "Complete: 'My favorite _____ is fried rice.'", options: ["food", "color", "subject", "city"], answer: 0 },
+            { q: "How do you reply to 'Nice to meet you'?", options: ["Nice to meet you too.", "I am 12 years old.", "I live in Batam.", "My name is Eko."], answer: 0 },
+            { q: "Unscramble: 'from / I / Batam / am'", options: ["I am from Batam", "Batam from I am", "I from am Batam", "Am I from Batam"], answer: 0 },
+            { q: "Unscramble: 'name / My / is / Rina'", options: ["My name is Rina", "Rina name is My", "Is My name Rina", "Name My is Rina"], answer: 0 },
+            { q: "Complete: 'I am _____ Batam.'", options: ["from", "at", "under", "behind"], answer: 0 },
+            { q: "Complete: 'My favorite color _____ blue.'", options: ["is", "are", "am", "were"], answer: 0 },
+            { q: "Match category 'Age' to sentence:", options: ["I am 12 years old.", "My name is Ani.", "I live in Sekupang.", "My hobby is music."], answer: 0 },
+            { q: "Match category 'City' to sentence:", options: ["I am from Batam.", "I am 12 years old.", "I like blue.", "Nice to meet you."], answer: 0 },
+            { q: "What is the greeting phrase for morning?", options: ["Good morning!", "Good night!", "Goodbye!", "See you!"], answer: 0 }
+        ];
+
+        function renderFinalQuiz() {
+            const container = document.getElementById('final-quiz-container');
+            container.innerHTML = QUIZ_QUESTIONS.map((q, idx) => `
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                    <p class="text-sm font-bold text-slate-800">${idx + 1}. ${q.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${q.options.map((opt, oIdx) => `
+                            <label class="flex items-center space-x-2.5 p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 cursor-pointer text-xs font-medium text-slate-700">
+                                <input type="radio" name="quiz-q-${idx}" value="${oIdx}" class="text-indigo-600 focus:ring-indigo-500">
+                                <span>${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function submitFinalQuiz() {
+            const nameInput = document.getElementById('quiz-student-name').value.trim();
+            if (!nameInput) {
+                showFeedbackModal("Name Required", "Please enter your full name before submitting the quiz!", "fa-circle-exclamation");
+                return;
+            }
+
+            userState.studentName = nameInput;
+
+            let score = 0;
+            QUIZ_QUESTIONS.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="quiz-q-${idx}"]:checked`);
+                if (selected && parseInt(selected.value) === q.answer) {
+                    score++;
+                }
+            });
+
+            const total = QUIZ_QUESTIONS.length;
+            const percentage = ((score / total) * 100).toFixed(1);
+            userState.quizScore = score;
+            userState.quizTotal = total;
+
+            let feedbackMsg = "";
+            let icon = "fa-trophy";
+
+            if (percentage >= 90) {
+                feedbackMsg = `Excellent! 🌟 Score: ${score}/${total} (${percentage}%)`;
+            } else if (percentage >= 75) {
+                feedbackMsg = `Great job! Keep practicing! 👍 Score: ${score}/${total} (${percentage}%)`;
+            } else if (percentage >= 60) {
+                feedbackMsg = `Good effort! Review the lesson and try again. Score: ${score}/${total} (${percentage}%)`;
+            } else {
+                feedbackMsg = `Keep practicing! You can do it! 💪 Score: ${score}/${total} (${percentage}%)`;
+            }
+
+            markActivityDone('Quiz');
+            addPoints(score * 5);
+            saveProgressToLocal();
+            saveQuizResultLocally(nameInput, score, total, percentage);
+
+            // Send to Google Sheets Apps Script endpoint if configured
+            if (TEACHER_CONFIG.googleScriptUrl) {
+                sendToGoogleSheets({
+                    studentName: nameInput,
+                    className: userState.className,
+                    score: score,
+                    totalQuestions: total,
+                    percentage: parseFloat(percentage),
+                    completedActivities: userState.completedActivities,
+                    date: new Date().toLocaleDateString('id-ID')
+                });
+            }
+
+            showFeedbackModal("Quiz Submitted!", feedbackMsg, icon);
+        }
+
+        function addPoints(pts) {
+            userState.points += pts;
+            checkBadges();
+            updateUI();
+            saveProgressToLocal();
+        }
+
+        function markActivityDone(activity) {
+            if (!userState.completedActivities.includes(activity)) {
+                userState.completedActivities.push(activity);
+                checkBadges();
+                updateUI();
+                saveProgressToLocal();
+            }
+        }
+
+        const ALL_BADGES = [
+            { id: "b1", title: "First Step", desc: "Started learning About Me", icon: "fa-shoe-prints" },
+            { id: "b2", title: "Vocabulary Master", desc: "Completed Vocabulary module", icon: "fa-book" },
+            { id: "b3", title: "Quiz Starter", desc: "Took the practice exercises", icon: "fa-pen-to-square" },
+            { id: "b4", title: "English Explorer", desc: "Earned 50+ points", icon: "fa-compass" },
+            { id: "b5", title: "Introduction Master", desc: "Completed Final Quiz & Bio", icon: "fa-crown" }
+        ];
+
+        function checkBadges() {
+            if (userState.completedActivities.length > 0 && !userState.badges.includes("b1")) userState.badges.push("b1");
+            if (userState.completedActivities.includes("Vocabulary") && !userState.badges.includes("b2")) userState.badges.push("b2");
+            if (userState.completedActivities.includes("Practice") && !userState.badges.includes("b3")) userState.badges.push("b3");
+            if (userState.points >= 50 && !userState.badges.includes("b4")) userState.badges.push("b4");
+            if (userState.completedActivities.includes("Quiz") && !userState.badges.includes("b5")) userState.badges.push("b5");
+        }
+
+        function updateUI() {
+            document.getElementById('nav-points').innerText = userState.points;
+            document.getElementById('nav-streak').innerText = userState.streak;
+            document.getElementById('nav-badges').innerText = `${userState.badges.length}/${ALL_BADGES.length}`;
+
+            // Update Progress meters
+            const hasVocab = userState.completedActivities.includes("Vocabulary") ? 100 : 0;
+            const hasExpr = userState.completedActivities.includes("Expressions") ? 100 : 0;
+            const hasPract = userState.completedActivities.includes("Practice") ? 100 : 0;
+            const hasQuiz = userState.completedActivities.includes("Quiz") ? 100 : 0;
+
+            document.getElementById('prog-vocab-pct').innerText = hasVocab + "%";
+            document.getElementById('prog-vocab-bar').style.width = hasVocab + "%";
+            document.getElementById('prog-expr-pct').innerText = hasExpr + "%";
+            document.getElementById('prog-expr-bar').style.width = hasExpr + "%";
+            document.getElementById('prog-pract-pct').innerText = hasPract + "%";
+            document.getElementById('prog-pract-bar').style.width = hasPract + "%";
+            document.getElementById('prog-quiz-pct').innerText = hasQuiz + "%";
+            document.getElementById('prog-quiz-bar').style.width = hasQuiz + "%";
+
+            // Render Badges Gallery
+            const gallery = document.getElementById('badges-gallery');
+            gallery.innerHTML = ALL_BADGES.map(b => {
+                const unlocked = userState.badges.includes(b.id);
+                return `
+                    <div class="p-4 rounded-2xl border ${unlocked ? 'bg-amber-50 border-amber-200' : 'bg-slate-50 border-slate-200 badge-locked'} text-center space-y-2">
+                        <div class="w-12 h-12 rounded-full ${unlocked ? 'bg-amber-400 text-slate-900' : 'bg-slate-200 text-slate-400'} flex items-center justify-center text-xl mx-auto shadow-sm">
+                            <i class="fa-solid ${b.icon}"></i>
+                        </div>
+                        <h4 class="text-xs font-bold text-slate-800">${b.title}</h4>
+                        <p class="text-[10px] text-slate-500">${b.desc}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function saveProgressToLocal() {
+            localStorage.setItem("studentProgress", JSON.stringify(userState));
+        }
+
+        function loadProgressFromLocal() {
+            const saved = localStorage.getItem("studentProgress");
+            if (saved) {
+                try {
+                    userState = { ...userState, ...JSON.parse(saved) };
+                } catch (e) { console.error(e); }
+            }
+        }
+
+        function resetAllProgress() {
+            localStorage.removeItem("studentProgress");
+            userState = { points: 0, streak: 1, completedActivities: [], badges: [], quizScore: 0, quizTotal: 15, studentName: "", className: "7A" };
+            updateUI();
+            showFeedbackModal("Reset Complete", "All learning progress data has been cleared.", "fa-rotate-right");
+        }
+
+        function loadTeacherConfig() {
+            const savedCfg = localStorage.getItem("teacherConfig");
+            if (savedCfg) {
+                try {
+                    TEACHER_CONFIG = { ...TEACHER_CONFIG, ...JSON.parse(savedCfg) };
+                } catch(e) {}
+            }
+            document.getElementById('cfg-teacher-name').value = TEACHER_CONFIG.teacherName;
+            document.getElementById('cfg-school-name').value = TEACHER_CONFIG.schoolName;
+            document.getElementById('cfg-script-url').value = TEACHER_CONFIG.googleScriptUrl;
+            document.getElementById('cfg-docs-url').value = TEACHER_CONFIG.googleDocsUrl;
+            document.getElementById('cfg-sheets-url').value = TEACHER_CONFIG.googleSheetsUrl;
+
+            document.getElementById('footer-teacher-name').innerText = TEACHER_CONFIG.teacherName;
+            document.getElementById('footer-school-name').innerText = TEACHER_CONFIG.schoolName;
+        }
+
+        function openConfigModal() {
+            document.getElementById('config-modal').classList.remove('hidden');
+        }
+
+        function closeConfigModal() {
+            document.getElementById('config-modal').classList.add('hidden');
+        }
+
+        function saveConfigSettings() {
+            TEACHER_CONFIG.teacherName = document.getElementById('cfg-teacher-name').value || "Ibu/Bapak Guru";
+            TEACHER_CONFIG.schoolName = document.getElementById('cfg-school-name').value || "SMP Harapan";
+            TEACHER_CONFIG.googleScriptUrl = document.getElementById('cfg-script-url').value.trim();
+            TEACHER_CONFIG.googleDocsUrl = document.getElementById('cfg-docs-url').value.trim();
+            TEACHER_CONFIG.googleSheetsUrl = document.getElementById('cfg-sheets-url').value.trim();
+
+            localStorage.setItem("teacherConfig", JSON.stringify(TEACHER_CONFIG));
+            loadTeacherConfig();
+            closeConfigModal();
+            showFeedbackModal("Settings Saved", "Teacher configuration updated successfully.", "fa-check");
+        }
+
+        function openTeacherDocs() {
+            if (TEACHER_CONFIG.googleDocsUrl) {
+                window.open(TEACHER_CONFIG.googleDocsUrl, '_blank');
+            } else {
+                showFeedbackModal("URL Not Configured", "Teacher has not set a Google Docs URL yet. Please configure it in Teacher Settings.", "fa-circle-exclamation");
+            }
+        }
+
+        function openTeacherSheets() {
+            if (TEACHER_CONFIG.googleSheetsUrl) {
+                window.open(TEACHER_CONFIG.googleSheetsUrl, '_blank');
+            } else {
+                showFeedbackModal("URL Not Configured", "Teacher has not set a Google Sheets URL yet. Please configure it in Teacher Settings.", "fa-circle-exclamation");
+            }
+        }
+
+        function sendToGoogleSheets(payload) {
+            if (!TEACHER_CONFIG.googleScriptUrl) return;
+
+            fetch(TEACHER_CONFIG.googleScriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => console.error("Google Sheets POST Error:", err));
+        }
+
+        function saveQuizResultLocally(name, score, total, percentage) {
+            let logs = JSON.parse(localStorage.getItem("quizLogs") || "[]");
+            logs.unshift({
+                date: new Date().toLocaleDateString('id-ID'),
+                studentName: name,
+                className: userState.className,
+                score: score,
+                total: total,
+                percentage: percentage + "%",
+                status: percentage >= 75 ? "Passed" : "Needs Practice"
+            });
+            localStorage.setItem("quizLogs", JSON.stringify(logs));
+            renderTeacherResultsTable();
+        }
+
+        function renderTeacherResultsTable() {
+            const logs = JSON.parse(localStorage.getItem("quizLogs") || "[]");
+            const tbody = document.getElementById('teacher-results-table');
+
+            if (logs.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-3 text-center text-slate-400">No student quiz results recorded locally yet.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = logs.map(row => `
+                <tr class="border-b border-slate-100 hover:bg-slate-50">
+                    <td class="px-4 py-2.5 text-xs">${row.date}</td>
+                    <td class="px-4 py-2.5 font-bold text-slate-800">${row.studentName}</td>
+                    <td class="px-4 py-2.5">${row.className}</td>
+                    <td class="px-4 py-2.5">${row.score}/${row.total}</td>
+                    <td class="px-4 py-2.5 font-bold">${row.percentage}</td>
+                    <td class="px-4 py-2.5">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${row.status === 'Passed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                            ${row.status}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function clearLocalStudentResults() {
+            localStorage.removeItem("quizLogs");
+            renderTeacherResultsTable();
+        }
+
+        function copyAppsScriptCode() {
+            const code = document.getElementById('apps-script-code').value;
+            const textarea = document.createElement("textarea");
+            textarea.value = code;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            showFeedbackModal("Code Copied!", "Google Apps Script code copied to clipboard.", "fa-copy");
+        }
+
+        function showFeedbackModal(title, msg, icon) {
+            document.getElementById('fb-title').innerText = title;
+            document.getElementById('fb-message').innerText = msg;
+            document.getElementById('fb-icon').className = `fa-solid ${icon}`;
+            document.getElementById('feedback-modal').classList.remove('hidden');
+        }
+
+        function closeFeedbackModal() {
+            document.getElementById('feedback-modal').classList.add('hidden');
+        }
+
+        window.onload = function() {
+            loadProgressFromLocal();
+            loadTeacherConfig();
+            renderObjectives();
+            renderVocabCards();
+            renderExpressions();
+            renderDND();
+            renderMCQ();
+            renderFill();
+            renderMatchingGame();
+            renderFinalQuiz();
+            renderTeacherResultsTable();
+            updateUI();
+
+            // Dynamic Inline PWA Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    const CACHE_NAME = 'about-me-v1';
+                    self.addEventListener('install', e => {
+                        e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(['./'])));
+                    });
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+                    });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+            }
+        };
+    </script>
+</body>
+</html>
